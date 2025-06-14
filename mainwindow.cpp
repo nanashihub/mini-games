@@ -28,7 +28,6 @@ MainWindow::MainWindow(QWidget *parent)
     difficultyCombo->addItem("Сложно");
     connect(difficultyCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainWindow::onDifficultyChanged);
 
-    // Важно: корректно инициализируем aiDifficulty по умолчанию!
     aiDifficulty = difficultyCombo->currentIndex();
 
     restartBtn = new QPushButton("Рестарт");
@@ -71,21 +70,19 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::handleButton(int row, int col) {
     if (board[row][col] != Player::None) return;
-    if (vsAI && currentPlayer == Player::O) return; // Блокируем клик, если сейчас ходит AI
+    if (vsAI && currentPlayer == Player::O) return;
 
     board[row][col] = currentPlayer;
     buttons[row][col]->setText(currentPlayer == Player::X ? "X" : "O");
 
     if (checkGameOver()) return;
 
-    // Если режим против AI и сейчас очередь AI — делаем ход AI
     if (vsAI && currentPlayer == Player::O) {
         aiMove();
     }
 }
 
 void MainWindow::aiMove() {
-    // AI делает ход только если игра не окончена
     if (isBoardFull() || checkWin(Player::X) || checkWin(Player::O)) return;
 
     if (aiDifficulty == 0)
@@ -112,7 +109,6 @@ bool MainWindow::checkGameOver() {
         showEndScreen("Ничья 🤝");
         return true;
     }
-    // Переключаем игрока только если игра не окончена
     currentPlayer = (currentPlayer == Player::X) ? Player::O : Player::X;
     updateStatus();
     return false;
