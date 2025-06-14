@@ -8,7 +8,6 @@ set(CMAKE_AUTOUIC ON)
 
 
 set(CMAKE_PREFIX_PATH "/opt/homebrew/opt/qt/lib/cmake")
-# set(CMAKE_PREFIX_PATH "/usr/local/opt/qt/lib/cmake")
 
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
 
