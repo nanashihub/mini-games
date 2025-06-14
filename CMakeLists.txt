@@ -6,10 +6,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-# Укажите путь к Qt, если CMake его не находит сам
-# Для ARM Mac (Apple Silicon):
+
 set(CMAKE_PREFIX_PATH "/opt/homebrew/opt/qt/lib/cmake")
-# Для Intel Mac:
 # set(CMAKE_PREFIX_PATH "/usr/local/opt/qt/lib/cmake")
 
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
