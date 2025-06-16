@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "tic-tac-toe.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QFont>
