@@ -7,6 +7,7 @@
 #include <QVBoxLayout>
 #include <QFont>
 #include <QCoreApplication>
+#include <QProcess>
 
 PuzzleWindow::PuzzleWindow(QWidget *parent)
     : QMainWindow(parent), gridSize(3)
@@ -15,6 +16,13 @@ PuzzleWindow::PuzzleWindow(QWidget *parent)
     QVBoxLayout *vbox = new QVBoxLayout;
 
     QHBoxLayout *topBar = new QHBoxLayout;
+    menuButton = new QPushButton("Главное меню");
+    connect(menuButton, &QPushButton::clicked, this, [this]() {
+        this->close();
+        QProcess::startDetached(QCoreApplication::applicationDirPath() + "/mainmenu");
+    });
+    topBar->addWidget(menuButton);
+
     difficultyCombo = new QComboBox;
     difficultyCombo->addItem("Легко (3x3)");
     difficultyCombo->addItem("Средне (4x4)");
@@ -51,7 +59,7 @@ PuzzleWindow::PuzzleWindow(QWidget *parent)
     setCentralWidget(central);
     setWindowTitle("Собери картину");
 
-    imagesPath = QCoreApplication::applicationDirPath() + "/../images/";
+    imagesPath = QCoreApplication::applicationDirPath() + "/../Puzzle/images/";
 
     loadRandomImage();
     splitImage();
