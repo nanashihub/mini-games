@@ -1,5 +1,7 @@
 #include "battleshipgame.h"
 #include <QApplication>
+#include <QProcess>
+#include <QCoreApplication>
 #include <algorithm>
 
 
@@ -168,15 +170,26 @@ void BattleshipGame::setupUI()
     
     auto* mainLayout = new QVBoxLayout(centralWidget);
     
+    auto* topLayout = new QHBoxLayout();
+    topLayout->addStretch();
+    
+    menuButton = new QPushButton("Главное меню", this);
+    menuButton->setStyleSheet("QPushButton { font-size: 12px; padding: 5px; }");
+    connect(menuButton, &QPushButton::clicked, this, [this]() {
+        this->close();
+        QProcess::startDetached(QCoreApplication::applicationDirPath() + "/mainmenu");
+    });
+    topLayout->addWidget(menuButton);
+    
+    mainLayout->addLayout(topLayout);
+    
     statusLabel = new QLabel("Расставьте корабли. ПКМ - поворот корабля", this);
     statusLabel->setAlignment(Qt::AlignCenter);
     statusLabel->setStyleSheet("QLabel { font-size: 14px; font-weight: bold; }");
     mainLayout->addWidget(statusLabel);
     
-   
     auto* boardsLayout = new QHBoxLayout();
     
- 
     auto* playerSection = new QVBoxLayout();
     playerLabel = new QLabel("Ваше поле", this);
     playerLabel->setAlignment(Qt::AlignCenter);
@@ -186,7 +199,6 @@ void BattleshipGame::setupUI()
     playerGrid = new QGridLayout(playerWidget);
     playerGrid->setSpacing(1);
     playerSection->addWidget(playerWidget);
-    
     
     auto* enemySection = new QVBoxLayout();
     enemyLabel = new QLabel("Поле противника", this);
@@ -204,26 +216,22 @@ void BattleshipGame::setupUI()
     
     mainLayout->addLayout(boardsLayout);
     
-    
     restartButton = new QPushButton("Новая игра", this);
     restartButton->setStyleSheet("QPushButton { font-size: 12px; padding: 10px; }");
     connect(restartButton, &QPushButton::clicked, this, &BattleshipGame::restartGame);
     mainLayout->addWidget(restartButton);
-    
     
     playerCells.resize(BOARD_SIZE, std::vector<GridCell*>(BOARD_SIZE));
     enemyCells.resize(BOARD_SIZE, std::vector<GridCell*>(BOARD_SIZE));
     
     for (int i = 0; i < BOARD_SIZE; ++i) {
         for (int j = 0; j < BOARD_SIZE; ++j) {
-            
             playerCells[i][j] = new GridCell(i, j, this);
             connect(playerCells[i][j], &GridCell::cellClicked,
                     this, &BattleshipGame::onPlayerCellClicked);
             connect(playerCells[i][j], &GridCell::cellRightClicked,
                     this, &BattleshipGame::onPlayerCellRightClicked);
             playerGrid->addWidget(playerCells[i][j], i, j);
-            
             
             enemyCells[i][j] = new GridCell(i, j, this);
             connect(enemyCells[i][j], &GridCell::cellClicked,
@@ -235,6 +243,7 @@ void BattleshipGame::setupUI()
     setWindowTitle("Морской бой");
     resize(800, 600);
 }
+
 
 void BattleshipGame::initializeGame()
 {
