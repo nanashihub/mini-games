@@ -31,6 +31,7 @@ private:
     QPushButton *restartBtn;
     QLabel *statusLabel;
     QWidget* boardWidget;
+    QPushButton *menuButton;
 
 
     QVector<QPushButton*> tiles;
