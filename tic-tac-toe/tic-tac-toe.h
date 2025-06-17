@@ -37,6 +37,7 @@ private:
     QComboBox *modeCombo;
     QComboBox *difficultyCombo;
     QPushButton *restartBtn;
+    QPushButton *menuButton;
     Player currentPlayer;
     bool vsAI;
     int aiDifficulty; // 0 - Easy, 1 - Hard
