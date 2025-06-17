@@ -99,6 +99,7 @@ private:
     QLabel* playerLabel;
     QLabel* enemyLabel;
     QPushButton* restartButton;
+    QPushButton* menuButton;
     
     // Игровые поля
     std::vector<std::vector<GridCell*>> playerCells;
