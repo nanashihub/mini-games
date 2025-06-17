@@ -4,6 +4,8 @@
 #include <QFont>
 #include <cstdlib>
 #include <ctime>
+#include <QProcess>
+#include <QCoreApplication>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
@@ -16,8 +18,15 @@ MainWindow::MainWindow(QWidget *parent)
 {
     QWidget *central = new QWidget;
     QVBoxLayout *vbox = new QVBoxLayout;
-    QHBoxLayout *topBar = new QHBoxLayout;
 
+    QHBoxLayout *topBar = new QHBoxLayout;
+    menuButton = new QPushButton("Главное меню");
+    connect(menuButton, &QPushButton::clicked, this, [this]() {
+        this->close();
+        QProcess::startDetached(QCoreApplication::applicationDirPath() + "/mainmenu");
+    });
+    topBar->addWidget(menuButton);
+    
     modeCombo = new QComboBox;
     modeCombo->addItem("Игрок vs AI");
     modeCombo->addItem("Игрок vs Игрок");
